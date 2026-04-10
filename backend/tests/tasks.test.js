@@ -1,6 +1,7 @@
 const request = require('supertest');
 
 const {server, app} = require('../index');
+const { default: mongoose } = require('mongoose');
 
 
 describe("GET /api/tasks", () => {
@@ -8,8 +9,16 @@ describe("GET /api/tasks", () => {
         const res = await request(app).get('/api/tasks');
         expect(res.statusCode).toBe(200);
     })
+
+    it("should return object and tasks property ok ", async () => {
+        const res = await request(app).get('/api/tasks');
+        expect(typeof res.body).toBe("object");
+        expect(res.body).toHaveProperty("tasks");
+        console.log(res.body.tasks, "DATA SEEDED")
+    }
 })
 
-afterAll(() => {
-    server.close();
+afterAll(async () => {
+    await mongoose.connection.close();
+    await server.close();
 })
