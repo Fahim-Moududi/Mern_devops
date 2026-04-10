@@ -10,12 +10,12 @@ describe("GET /api/tasks", () => {
         expect(res.statusCode).toBe(200);
     })
 
-    it("should return object and tasks property ok ", async () => {
+    it("should return an array of tasks", async () => {
         const res = await request(app).get('/api/tasks');
-        expect(typeof res.body).toBe("object");
-        expect(res.body).toHaveProperty("tasks");
-        console.log(res.body.tasks, "DATA SEEDED")
-    }
+        expect(Array.isArray(res.body)).toBe(true);
+        expect(res.body.length).toBeGreaterThan(0);
+        console.log(res.body, "DATA SEEDED")
+    } )
 })
 
 afterAll(async () => {
